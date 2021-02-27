@@ -23,10 +23,6 @@ git clone https://gitlab.com/vitronic/mqtt-ping.git
 
 ## Usage
 
-Edit the broker variable to use your preferred MQTT server.
-
-To run the streaming server run the following in the terminal.
-
 ```
 vitronic [~/Proyectos/Lua]$ cd mqtt-ping/
 vitronic [~/Proyectos/Lua/mqtt-ping]$ chmod +x mqttping
@@ -45,9 +41,9 @@ pong from broker.hivemq.com time=0.472 ms seq=5
 
 ## TODO
 
-[] Statistics of the averages
-[] Making the luarocks package
-[] Suport to SSl/TLS
+- [] Statistics of the averages
+- [] Making the luarocks package
+- [] Suport to SSl/TLS
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
