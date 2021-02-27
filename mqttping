@@ -1,0 +1,57 @@
+#!/usr/bin/env lua
+
+--[[!
+ @package   
+ @filename  mqttping
+ @version   1.0
+ @autor     Máster Vitronic <mastervitronic@gmail.com>
+ @date      26/02/2021 16:31:29 -04
+ @licence   MIT licence
+]]--
+
+local getopt 	= require 'posix.unistd'.getopt
+local Obj	= require ('mqtt-ping')
+local help	= [[
+ -p network port to connect to. Defaults to 1883.
+ -u provide a username.
+ -P provide a password.
+ -t mqtt topic to subscribe to send packets Defaults to pingtest.
+ -q quality of service level to use for the subscription. Defaults to 2.
+ -k keep alive in seconds for this client. Defaults to 60.
+ -c <count>  how many packets to send
+ -i id to use for this client. Defaults to pinger.
+ <destination> broker name or ip address Defaults to localhost.
+
+See https://gitlab.com/vitronic/mqtt-ping for more information.
+]]
+
+local opts,last  = {}, 1
+for opt, optarg, optind in getopt(arg, 'h::p:u:P:t:q:k:c:i:') do
+   if opt == '?' then
+      return print('unrecognized option', arg[optind-1])
+   end
+   last = optind
+   if opt == 'h' then
+	print("Usage: "..arg[0]..": [options] <destination>")
+	return print(help)
+   elseif opt == 'p' then
+      opts.port		= optarg
+   elseif opt == 'i' then
+	opts.id 	= optarg
+   elseif opt == 't' then
+      opts.topic	= optarg
+   elseif opt == 'c' then
+	opts.count	= optarg
+   elseif opt == 'u' then
+	opts.username	= optarg
+   elseif opt == 'P' then
+	opts.password	= optarg
+   elseif opt == 'q' then
+	opts.qos	= optarg
+   elseif opt == 'k' then
+	opts.keepalive	= optarg
+   end
+end
+opts.broker = arg[last]
+
+Obj:new(opts):ping(opts.count)
